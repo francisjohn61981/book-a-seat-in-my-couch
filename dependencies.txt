@@ -1,12 +1,15 @@
 #fastapi
 pip install fastapi uvicorn psycopg2-binary
 python -m uvicorn api-py:app --reload --host localhost --port 8000
+docker build -t fastapi-image:v4 .
+docker run -d --name fastapi-container --network couchnetwork -p 8000:8000 fastapi-image:v4
+docker exec -it fastapi-container ping postgres-container
 
 #DB
 docker build -t my-postgres .
-docker run -d --name postgres-container -p 5432:5432 --env-file .env -vpg_data:/var/lib/postgresql/data my-postgres
+docker run -d --name postgres-container  --network couchnetwork -p 5432:5432 --env-file .env -vpg_data:/var/lib/postgresql/data my-postgres
 docker exec -it postgres-container psql -U myuser -d mydb
 
-#frontend 
+#frontend
 docker build -t frontend:v1 .
 docker run -d --name frontend-container -d -p 8080:80 frontend:latest
