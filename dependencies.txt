@@ -1,0 +1,13 @@
+pip install fastapi uvicorn psycopg2-binary
+
+python -m uvicorn api-py:app --reload --host localhost --port 8000
+
+docker build -t my-postgres .
+
+docker run -d --name postgres-container -p 5432:5432 --env-file .env -vpg_data:/var/lib/postgresql/data my-postgres
+
+docker exec -it postgres-container psql -U myuser -d mydb
+
+#frontend 
+docker build -t frontend:v1 .
+docker run 
