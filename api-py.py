@@ -31,7 +31,7 @@ def read_isbooked():
         conn = get_connection()
         cursor = conn.cursor()
 
-        cursor.execute("SELECT \"isbooked\" FROM couch;")
+        cursor.execute("SELECT id, isbooked FROM couch;")
         results = cursor.fetchall()
 
         cursor.close()

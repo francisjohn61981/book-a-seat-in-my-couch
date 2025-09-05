@@ -1,8 +1,9 @@
-# Use nginx as base image
 FROM nginx:alpine
 
-# Copy your HTML into Nginx's default static file directory
-COPY index.html /usr/share/nginx/html/index.html
+# Copy HTML
+COPY index.html /usr/share/nginx/html/
 
-# Nginx automatically serves from /usr/share/nginx/html
+# Copy Nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
+
 EXPOSE 80
