@@ -27,7 +27,7 @@
   <script>
     async function fetchCouchStatus() {
       try {
-        const response = await fetch("/isbooked");
+        const response = await fetch("/api/isbooked");
         const data = await response.json();
 
         const tbody = document.querySelector("#couchTable tbody");
