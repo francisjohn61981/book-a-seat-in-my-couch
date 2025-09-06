@@ -11,6 +11,5 @@ docker run -d --name postgres-container  --network couchnetwork -p 5432:5432 --e
 docker exec -it postgres-container psql -U myuser -d mydb
 
 #frontend
-docker build -t frontend:v5 .
-docker run -d --name frontend-container --network couchnetwork -d -p 8080:80 frontend:v5
-docker run -d --name frontend-container --network couchnetwork -p 8080:80 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro  -v $(pwd)/frontend:/usr/share/nginx/html:ro frontend:v5
+docker build -t frontend:v6 .
+docker run -d --name frontend-container --network couchnetwork -d -p 8080:80 frontend:v6
