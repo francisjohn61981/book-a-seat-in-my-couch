@@ -11,5 +11,5 @@ docker run -d --name postgres-container  --network couchnetwork -p 5432:5432 --e
 docker exec -it postgres-container psql -U myuser -d mydb
 
 #frontend
-docker build -t frontend:v1 .
-docker run -d --name frontend-container -d -p 8080:80 frontend:latest
+docker build -t frontend:v3 .
+docker run -d --name frontend-container --network couchnetwork -d -p 8080:80 frontend:v3
