@@ -1,0 +1,44 @@
+services:
+  postgresdb:
+    build: ./postgres-db
+    image: my-postgres:latest
+    container_name: postgres-dc
+    env_file:
+      - ./postgres-db/.env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - couchnetwork
+
+  api:
+    build: ./fastapi
+    image: fastapi-image:latest
+    container_name: fastapi-dc
+    env_file:
+      - ./fastapi/.env
+    depends_on:
+      - postgresdb
+    ports:
+      - "8000:8000"
+    networks:
+      - couchnetwork
+
+  frontend:
+    build: ./frontend
+    image: frontend:latest
+    container_name: frontend-dc
+    networks:
+      - couchnetwork
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+
+volumes:
+  pg_data:
+
+networks:
+  couchnetwork:
+    driver: bridge

@@ -7,7 +7,7 @@ docker exec -it fastapi-container ping postgres-container
 
 #DB
 docker build -t my-postgres .
-docker run -d --name postgres-container  --network couchnetwork -p 5432:5432 --env-file .env -vpg_data:/var/lib/postgresql/data my-postgres
+docker run -d --name postgres-container  --network couchnetwork -p 5432:5432 --env-file .env -v pg_data:/var/lib/postgresql/data my-postgres
 docker exec -it postgres-container psql -U myuser -d mydb
 
 #frontend
