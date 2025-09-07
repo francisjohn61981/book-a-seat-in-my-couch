@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: couch
+data:
+  default.conf: |
+    server {
+      listen 80;
+
+      # Serve static frontend files
+      location / {
+          root /usr/share/nginx/html;
+          index index.html;
+          try_files $uri /index.html;
+      }
+
+      # Proxy API requests
+      location /api/ {
+          proxy_pass http://fastapi.couch.svc.cluster.local:8000/;  # ensure this matches your API Service name
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: couch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: francisjohn61981/frontend:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: frontend-config
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: frontend-config
+          configMap:
+            name: frontend-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: couch
+spec:
+  type: NodePort # change to LoadBalancer if on cloud
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080 # must be 30000-32767
