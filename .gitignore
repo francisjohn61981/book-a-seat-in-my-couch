@@ -3,3 +3,4 @@ dependencies*
 __pycache__/
 *.pyc
 commands*
+*secret*
