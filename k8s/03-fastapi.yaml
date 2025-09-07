@@ -4,9 +4,9 @@ metadata:
   name: fastapi-config
   namespace: couch
 data:
-  DB_HOST: mydb
+  DB_HOST: postgresdb.couch.svc.cluster.local
   DB_PORT: "5432"
-  DB_NAME: myuser
+  DB_NAME: mydb
 ---
 apiVersion: apps/v1
 kind: Deployment
