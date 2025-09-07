@@ -1,4 +1,5 @@
-dependencies.txt
+dependencies*
 .env
 __pycache__/
 *.pyc
+commands*
